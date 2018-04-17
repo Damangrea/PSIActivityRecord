@@ -20,6 +20,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -792,5 +793,97 @@ public class ActivityEdit extends MyForm {
             locationManager.removeUpdates(locationListener);
         }
         super.onDestroy();
+    }
+
+    private boolean emptyValidation(EditText editText) {
+        if (TextUtils.isEmpty(editText.getText())) {
+            editText.setError("Field Required!");
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public boolean onParamValidation() {
+        boolean bValidate = true;
+        switch (editWorkStatus.getText().toString()) {
+            case "WORK": {
+                switch (editWorkCategory.getText().toString()) {
+                    case "Standby On-site/Standby On-call/Monitoring":
+//                        //stand by
+//                        $("#customer").prop('required', true);
+                        if (!emptyValidation(editCustomer)) {
+                            bValidate = false;
+                        }
+//                        $("#file_data").prop('required', true);
+                        break;
+                    case "Resident":
+//                        $("#customer").prop('required', true);
+                        if (!emptyValidation(editCustomer)) {
+                            bValidate = false;
+                        }
+                        break;
+                    case "Maintenance-Documentation/Report"://doc
+//                        $("#customer").prop('required', true);
+                        if (!emptyValidation(editCustomer)) {
+                            bValidate = false;
+                        }
+                        break;
+                    case "Maintenance-Prev Maintenance"://pm
+                    case "Maintenance-Meeting/Discussion"://meeting/discussion
+                    case "Maintenance-Others"://others
+//                        $("#customer").prop('required', true);
+                        if (!emptyValidation(editCustomer)) {
+                            bValidate = false;
+                        }
+                        break;
+                    case "Maintenance-Corrective":
+                    case "Maintenance-Change Request":
+//                        $("#customer").prop('required', true);
+                        if (!emptyValidation(editCustomer)) {
+                            bValidate = false;
+                        }
+//                        $("#crm").prop('required', true);
+                        if (!emptyValidation(editCRMNumber)) {
+                            bValidate = false;
+                        }
+                        break;
+                    case "Project-Implementation/Integration/Migration/Troubleshooting":
+                    case "Project-Documentation":
+                    case "Project-Staging":
+                    case "Project-Survey":
+                    case "Project-Others":
+                    case "Project-Meeting/Discussion":
+//                        $("#customer").prop('required', true);
+                        if (!emptyValidation(editCustomer)) {
+                            bValidate = false;
+                        }
+                        break;
+                    case "Support Sales":
+                        // $("#file_data").prop('required', true);
+//                        $("#account_manager").prop('required', true);
+                        if (!emptyValidation(editAccountManager)) {
+                            bValidate = false;
+                        }
+//                        $("#customer").prop('required', true);
+                        if (!emptyValidation(editCustomer)) {
+                            bValidate = false;
+                        }
+                        break;
+                    case "Support PS":
+                    case "Support SSS":
+//                        $("#file_data").prop('required', true);
+//                        $("#customer").prop('required', true);
+                        if (!emptyValidation(editCustomer)) {
+                            bValidate = false;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        return bValidate;
     }
 }

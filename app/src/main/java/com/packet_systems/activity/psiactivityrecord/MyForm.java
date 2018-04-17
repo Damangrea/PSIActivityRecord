@@ -162,29 +162,36 @@ public abstract class MyForm extends AppCompatActivity {
         });
     }
 
+    public boolean onParamValidation() {
+        return true;
+    }
+
+    ;
 
     public void submitRequest(String url, final Map<String, String> p_request, final String p_sIdLog) {
-        StringRequest postRequest = new StringRequest(Request.Method.POST, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Log.d(p_sIdLog, "response :" + response);
-                        doResponse(response, p_sIdLog);
+        if (onParamValidation()) {
+            StringRequest postRequest = new StringRequest(Request.Method.POST, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Log.d(p_sIdLog, "response :" + response);
+                            doResponse(response, p_sIdLog);
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            error.printStackTrace();
+                        }
                     }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
+            ) {
+                @Override
+                protected Map<String, String> getParams() {
+                    return p_request;
                 }
-        ) {
-            @Override
-            protected Map<String, String> getParams() {
-                return p_request;
-            }
-        };
-        Volley.newRequestQueue(this).add(postRequest);
+            };
+            Volley.newRequestQueue(this).add(postRequest);
+        }
     }
 
     ;
