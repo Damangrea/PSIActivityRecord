@@ -29,6 +29,78 @@ public class ActivityData implements Serializable {
     private String self_study_company;
     private String am;
     private String pend_so;
+    private String checkin_long;
+    private String checkin_lat;
+    private String checkin_alt;
+    private String checkin_time;
+    private String checkout_long;
+    private String checkout_lat;
+    private String checkout_alt;
+    private String checkout_time;
+
+    public String getCheckin_alt() {
+        return checkin_alt;
+    }
+
+    public String getCheckin_lat() {
+        return checkin_lat;
+    }
+
+    public String getCheckin_long() {
+        return checkin_long;
+    }
+
+    public String getCheckin_time() {
+        return checkin_time;
+    }
+
+    public String getCheckout_alt() {
+        return checkout_alt;
+    }
+
+    public String getCheckout_lat() {
+        return checkout_lat;
+    }
+
+    public String getCheckout_long() {
+        return checkout_long;
+    }
+
+    public String getCheckout_time() {
+        return checkout_time;
+    }
+
+    public void setCheckin_alt(String checkin_alt) {
+        this.checkin_alt = checkin_alt;
+    }
+
+    public void setCheckin_lat(String checkin_lat) {
+        this.checkin_lat = checkin_lat;
+    }
+
+    public void setCheckin_long(String checkin_long) {
+        this.checkin_long = checkin_long;
+    }
+
+    public void setCheckin_time(String checkin_time) {
+        this.checkin_time = checkin_time;
+    }
+
+    public void setCheckout_alt(String checkout_alt) {
+        this.checkout_alt = checkout_alt;
+    }
+
+    public void setCheckout_lat(String checkout_lat) {
+        this.checkout_lat = checkout_lat;
+    }
+
+    public void setCheckout_long(String checkout_long) {
+        this.checkout_long = checkout_long;
+    }
+
+    public void setCheckout_time(String checkout_time) {
+        this.checkout_time = checkout_time;
+    }
 
     public String getActivity() {
         return activity;

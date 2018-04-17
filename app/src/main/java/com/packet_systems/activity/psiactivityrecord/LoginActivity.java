@@ -31,7 +31,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -109,6 +111,11 @@ public class LoginActivity extends MyForm {
                 Map<String, String> params = new HashMap<>();
                 params.put("username", tvUserName.getText().toString());
                 params.put("password", tvPassword.getText().toString());
+                if (ActivityCompat.checkSelfPermission(LoginActivity.this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                params.put("imei", tmPhone.getDeviceId());
+                params.put("device_date", DateFormat.getDateTimeInstance().format(new Date()));
                 submitRequest("https://ssportal-tbs-2.packet-systems.com/mobile/mobile_login/", params, "Login");
             }
         });

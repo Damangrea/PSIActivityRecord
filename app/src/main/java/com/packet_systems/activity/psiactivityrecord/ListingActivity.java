@@ -117,6 +117,14 @@ public class ListingActivity extends MyForm {
             activityData.setLab_category(jsonObject.getString("lab"));
             activityData.setTechnology(jsonObject.getString("technology"));
             activityData.setSubtechnology(jsonObject.getString("subtechnology"));
+            activityData.setCheckin_long(jsonObject.getString("checkin_long"));
+            activityData.setCheckin_lat(jsonObject.getString("checkin_lat"));
+            activityData.setCheckin_alt(jsonObject.getString("checkin_alt"));
+            activityData.setCheckin_time(jsonObject.getString("checkin_time"));
+            activityData.setCheckout_long(jsonObject.getString("checkout_long"));
+            activityData.setCheckout_lat(jsonObject.getString("checkout_lat"));
+            activityData.setCheckout_alt(jsonObject.getString("checkout_alt"));
+            activityData.setCheckout_time(jsonObject.getString("checkout_time"));
             activityDataList.add(activityData);
         }
         ////////

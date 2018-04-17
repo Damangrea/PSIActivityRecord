@@ -112,6 +112,14 @@ public class ActivityEdit extends MyForm {
             editMailLog.setText(activityData.getMail_log());
             editTechnology.setText(activityData.getTechnology());
             editSubTechnology.setText(activityData.getSubtechnology());
+            editCheckinLong.setText(activityData.getCheckin_long());
+            editCheckinLat.setText(activityData.getCheckin_lat());
+            editCheckinAlt.setText(activityData.getCheckin_alt());
+            editCheckinTime.setText(activityData.getCheckin_time());
+            editCheckoutLong.setText(activityData.getCheckout_long());
+            editCheckoutLat.setText(activityData.getCheckout_lat());
+            editCheckoutAlt.setText(activityData.getCheckout_alt());
+            editCheckoutTime.setText(activityData.getCheckout_time());
 //            editAccountManager.setText(activityData.get());
 
         } else {
@@ -271,7 +279,7 @@ public class ActivityEdit extends MyForm {
                 TimePickerDialog mTimePicker = new TimePickerDialog(ActivityEdit.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        editTimeStart.setText(hourOfDay + ":" + (minute < 10 ? "" + minute : minute));
+                        editTimeStart.setText(hourOfDay + ":" + (minute < 10 ? "0" + minute : minute));
                     }
                 }, mHour, mMinute, true);
                 mTimePicker.show();
@@ -289,7 +297,7 @@ public class ActivityEdit extends MyForm {
                 TimePickerDialog mTimePicker = new TimePickerDialog(ActivityEdit.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        editTimeEnd.setText(hourOfDay + ":" + (minute < 10 ? "" + minute : minute));
+                        editTimeEnd.setText(hourOfDay + ":" + (minute < 10 ? "0" + minute : minute));
                     }
                 }, mHour, mMinute, true);
                 mTimePicker.show();
