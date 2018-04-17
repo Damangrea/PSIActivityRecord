@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/contract_list"
+        android:icon="@mipmap/ic_view_list_black_24dp"
+        android:title="Contract List" />
+    <item
+        android:id="@+id/activity_list"
+        android:icon="@mipmap/ic_view_list_black_24dp"
+        android:title="Activity List" />
+    <item
+        android:id="@+id/logout"
+        android:icon="@mipmap/ic_exit_to_app_black_24dp"
+        android:title="Log Out" />
+</menu>
