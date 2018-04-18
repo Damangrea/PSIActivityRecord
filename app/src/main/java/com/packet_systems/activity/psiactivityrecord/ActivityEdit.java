@@ -42,6 +42,8 @@ import com.android.volley.VolleyError;
 import com.packet_systems.activity.psiactivityrecord.adapter.ActivityAdapter;
 import com.packet_systems.activity.psiactivityrecord.data.ActivityData;
 import com.packet_systems.activity.psiactivityrecord.data.ContractData;
+import com.packet_systems.activity.psiactivityrecord.data.SubTechnologyData;
+import com.packet_systems.activity.psiactivityrecord.data.TechnologyData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -353,6 +355,28 @@ public class ActivityEdit extends MyForm {
         editMailLog = (EditText) findViewById(R.id.edit_maillog);
         editTechnology = (EditText) findViewById(R.id.edit_technology);
         editSubTechnology = (EditText) findViewById(R.id.edit_subtechnology);
+
+
+        editTechnology.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String[] technology = new String[listTechnologyData.size()];
+                for (int i = 0; i < listTechnologyData.size(); i++) {
+                    technology[i] = listTechnologyData.get(i).getName();
+                }
+                final ArrayAdapter<String> technologyAdapter = new ArrayAdapter<String>(ActivityEdit.this, android.R.layout.simple_spinner_dropdown_item, technology);
+                new AlertDialog.Builder(ActivityEdit.this)
+                        .setTitle("Select Technology")
+                        .setAdapter(technologyAdapter, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                editTechnology.setText(technology[which].toString());
+                                dialog.dismiss();
+                                rePopulatesubTech();
+                            }
+                        }).create().show();
+            }
+        });
+
         editAccountManager = (EditText) findViewById(R.id.edit_accountmanager);
 
         btnCheckIn = (Button) findViewById(R.id.btn_checkin);
@@ -591,6 +615,30 @@ public class ActivityEdit extends MyForm {
                 break;
             }
         }
+    }
+
+    public void rePopulatesubTech() {
+        TechnologyData technologyData = null;
+        for (int i = 0; i < listTechnologyData.size(); i++) {
+            technologyData = listTechnologyData.get(i);
+            if (technologyData.getName().equals(editTechnology.getText().toString())) {
+                break;
+            }
+        }
+        List<SubTechnologyData> subTechnologyDataList = technologyData.getListSubtech();
+        final String[] subTechnology = new String[subTechnologyDataList.size()];
+        for (int i = 0; i < subTechnologyDataList.size(); i++) {
+            subTechnology[i] = subTechnologyDataList.get(i).getName();
+        }
+        final ArrayAdapter<String> subTechnologyAdapter = new ArrayAdapter<String>(ActivityEdit.this, android.R.layout.simple_spinner_dropdown_item, subTechnology);
+        new AlertDialog.Builder(ActivityEdit.this)
+                .setTitle("Select Sub Technology")
+                .setAdapter(subTechnologyAdapter, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        editSubTechnology.setText(subTechnology[which].toString());
+                        dialog.dismiss();
+                    }
+                }).create().show();
     }
 
 

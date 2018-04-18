@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.packet_systems.activity.psiactivityrecord.data.ContractData;
 import com.packet_systems.activity.psiactivityrecord.data.CustomerData;
+import com.packet_systems.activity.psiactivityrecord.data.SubTechnologyData;
 import com.packet_systems.activity.psiactivityrecord.data.TeamData;
 import com.packet_systems.activity.psiactivityrecord.data.TechnologyData;
 
@@ -277,41 +278,48 @@ public class LoginActivity extends MyForm {
                 }
         );
         Volley.newRequestQueue(this).add(postRequest);
-//        postRequest= new StringRequest(Request.Method.POST, urlSubTechnology,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        Log.d("PARAM ", "response :" + response);
-//                        try {
-//                            JSONObject jsonObj = new JSONObject(response);
-//                            String transResponse = jsonObj.getString("errorcode");
-//                            JSONArray jsonArray = jsonObj.getJSONArray("data");
-//                            JSONObject jsonChild;
-//                            CustomerData customerData;
-//                            if(jsonArray.length()>0){
-//                                listCustomerData = new ArrayList<>();
-//                                for (int i = 0; i <jsonArray.length() ; i++) {
-//                                    jsonChild = jsonArray.getJSONObject(i);
-//                                    customerData = new CustomerData();
-//                                    customerData.setId(jsonChild.getString("id"));
-//                                    customerData.setName(jsonChild.getString("name"));
-//                                    listCustomerData.add(customerData);
-//                                }
-//                            }
-//                        } catch (JSONException e) {
-//                            Log.d("", "errorJSON");
-//                            Toast.makeText(getBaseContext(),""+" : Error Response From Server",Toast.LENGTH_LONG);
-//                        }
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        error.printStackTrace();
-//                    }
-//                }
-//        );
-//        Volley.newRequestQueue(this).add(postRequest);
+        postRequest = new StringRequest(Request.Method.POST, urlSubTechnology,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("PARAM ", "response :" + response);
+                        try {
+                            JSONObject jsonObj = new JSONObject(response);
+                            String transResponse = jsonObj.getString("errorcode");
+                            JSONArray jsonArray = jsonObj.getJSONArray("data");
+                            JSONObject jsonChild;
+                            SubTechnologyData subTechnologyData;
+                            TechnologyData technologyData;
+                            if (jsonArray.length() > 0) {
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    jsonChild = jsonArray.getJSONObject(i);
+                                    subTechnologyData = new SubTechnologyData();
+                                    subTechnologyData.setId(jsonChild.getString("id"));
+                                    subTechnologyData.setName(jsonChild.getString("name"));
+                                    subTechnologyData.setTech_id(jsonChild.getString("technology"));
+                                    for (int j = 0; j < listTechnologyData.size(); j++) {
+                                        technologyData = listTechnologyData.get(j);
+                                        if (technologyData.getName().equals(subTechnologyData.getTech_id())) {
+                                            technologyData.addSubtech(subTechnologyData);
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                        } catch (JSONException e) {
+                            Log.d("", "errorJSON");
+                            Toast.makeText(getBaseContext(), "" + " : Error Response From Server", Toast.LENGTH_LONG);
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        );
+        Volley.newRequestQueue(this).add(postRequest);
     }
 
     @Override

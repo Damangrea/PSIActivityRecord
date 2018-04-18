@@ -12,6 +12,11 @@ public class TechnologyData implements Serializable {
     private String name;
     private ArrayList<SubTechnologyData> listSubtech;
 
+    public TechnologyData() {
+        super();
+        listSubtech = new ArrayList<>();
+    }
+
     public String getId() {
         return id;
     }
@@ -28,8 +33,8 @@ public class TechnologyData implements Serializable {
         this.name = name;
     }
 
-    public void setListSubtech(ArrayList<SubTechnologyData> listSubtech) {
-        this.listSubtech = listSubtech;
+    public void addSubtech(SubTechnologyData subtech) {
+        listSubtech.add(subtech);
     }
 
     public ArrayList<SubTechnologyData> getListSubtech() {
