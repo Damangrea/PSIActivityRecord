@@ -21,6 +21,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.text.InputType;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +39,11 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.packet_systems.activity.psiactivityrecord.adapter.ActivityAdapter;
 import com.packet_systems.activity.psiactivityrecord.data.ActivityData;
 import com.packet_systems.activity.psiactivityrecord.data.ContractData;
@@ -47,6 +52,7 @@ import com.packet_systems.activity.psiactivityrecord.data.TechnologyData;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -103,10 +109,10 @@ public class ActivityEdit extends MyForm {
             editTimeStart.setText(activityData.getTime_start());
             editTimeEnd.setText(activityData.getTime_end());
             editActivity.setText(activityData.getActivity());
-//            editCheckinLong.setText(activityData.getActivity_status());
-//            editCheckinLat.setText(activityData.getActivity_status());
-//            editCheckoutLong.setText(activityData.getActivity_status());
-//            editCheckoutLat.setText(activityData.getActivity_status());
+            editCheckinLong.setText(activityData.getCheckin_long());
+            editCheckinLat.setText(activityData.getCheckin_lat());
+            editCheckoutLong.setText(activityData.getCheckout_long());
+            editCheckoutLat.setText(activityData.getCheckout_lat());
             editProject.setText(activityData.getProject());
             editSONumber.setText(activityData.getSo());
             editRFPANumber.setText(activityData.getRfpa_number());
@@ -150,12 +156,25 @@ public class ActivityEdit extends MyForm {
                         tgle_gps.setChecked(false);
                         return;
                     }
-
+                    if (idActivity.length() == 0) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ActivityEdit.this);
+                        builder.setTitle("Submit/Set to Draft First");
+                        builder.setMessage("Submit or set to draft first in order get location");
+                        builder.setPositiveButton("OK", null);
+                        builder.show();
+                        tgle_gps.setChecked(false);
+                        return;
+                    }
+                    if (locationListener != null) {
+                        locationManager.removeUpdates(locationListener);
+                    }
+                    //set ulang listener
                     locationListener = new MyLocationListener();
                     btnCheckIn.setEnabled(true);
                     btnCheckIn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            location_process = act_checkin;
                             locationListener.setEditLongLatAlt(editCheckinLong, editCheckinLat, editCheckinAlt, editCheckinTime);
                             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 return;
@@ -168,6 +187,7 @@ public class ActivityEdit extends MyForm {
                     btnCheckOut.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            location_process = act_checkout;
                             locationListener.setEditLongLatAlt(editCheckoutLong, editCheckoutLat, editCheckoutAlt, editCheckoutTime);
                             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 return;
@@ -307,9 +327,13 @@ public class ActivityEdit extends MyForm {
         });
         editActivity = (EditText) findViewById(R.id.edit_activity);
         editCheckinLong = (EditText) findViewById(R.id.edit_chkin_longitude);
+        editCheckinLong.setEnabled(false);
         editCheckinLat = (EditText) findViewById(R.id.edit_chkin_latitude);
+        editCheckinLat.setEnabled(false);
         editCheckoutLong = (EditText) findViewById(R.id.edit_chkout_longitude);
+        editCheckoutLong.setEnabled(false);
         editCheckoutLat = (EditText) findViewById(R.id.edit_chkout_latitude);
+        editCheckoutLat.setEnabled(false);
         editCheckinAlt = (EditText) findViewById(R.id.edit_chkin_altitude);
         editCheckoutAlt = (EditText) findViewById(R.id.edit_chkout_altitude);
         editCheckinTime = (EditText) findViewById(R.id.edit_chkin_time);
@@ -356,7 +380,8 @@ public class ActivityEdit extends MyForm {
         editTechnology = (EditText) findViewById(R.id.edit_technology);
         editSubTechnology = (EditText) findViewById(R.id.edit_subtechnology);
 
-
+        editTechnology.setInputType(InputType.TYPE_NULL);
+        editSubTechnology.setInputType(InputType.TYPE_NULL);
         editTechnology.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -602,7 +627,7 @@ public class ActivityEdit extends MyForm {
 //                        $("#tr_lab_edit").show();
                         rltv_labcategory.setVisibility(View.VISIBLE);
 //                        $("#tr_activity_self_study_edit").show();
-                        rltv_selfstudy.setVisibility(View.VISIBLE);
+//                        rltv_selfstudy.setVisibility(View.VISIBLE);
 //                        $("#topic_label").show();
                         break;
                 }
@@ -725,12 +750,15 @@ public class ActivityEdit extends MyForm {
                 params.put("rfpa", editRFPANumber.getText().toString());
                 params.put("mailLog", editMailLog.getText().toString());
                 params.put("crmNumber", editCRMNumber.getText().toString());
-                params.put("checkin_long", editCheckinLong.getText().toString());
-                params.put("checkin_lat", editCheckinLat.getText().toString());
-                params.put("checkin_alt", editCheckinAlt.getText().toString());
-                params.put("checkout_long", editCheckinLong.getText().toString());
-                params.put("checkout_lat", editCheckinLat.getText().toString());
-                params.put("checkout_alt", editCheckinAlt.getText().toString());
+//                params.put("checkin_long", editCheckinLong.getText().toString());
+//                params.put("checkin_lat", editCheckinLat.getText().toString());
+//                params.put("checkin_alt", editCheckinAlt.getText().toString());
+//                params.put("checkout_long", editCheckinLong.getText().toString());
+//                params.put("checkout_lat", editCheckinLat.getText().toString());
+//                params.put("checkout_alt", editCheckinAlt.getText().toString());
+                params.put("tech", editTechnology.getText().toString());
+                params.put("subtech", editSubTechnology.getText().toString());
+                params.put("lab", (tgle_labcategory.isChecked() ? "1" : "0"));
                 submitRequest("https://ssportal-tbs-2.packet-systems.com/mobile/mobile_activity_save_draft/", params, "Save Draft");
                 menu_process = act_draft;
                 break;
@@ -752,14 +780,17 @@ public class ActivityEdit extends MyForm {
                 params.put("rfpa", editRFPANumber.getText().toString());
                 params.put("mailLog", editMailLog.getText().toString());
                 params.put("crmNumber", editCRMNumber.getText().toString());
-                params.put("checkin_long", editCheckinLong.getText().toString());
-                params.put("checkin_lat", editCheckinLat.getText().toString());
-                params.put("checkin_alt", editCheckinAlt.getText().toString());
-                params.put("checkin_time", editCheckinTime.getText().toString());
-                params.put("checkout_time", editCheckoutTime.getText().toString());
-                params.put("checkout_long", editCheckinLong.getText().toString());
-                params.put("checkout_lat", editCheckinLat.getText().toString());
-                params.put("checkout_alt", editCheckinAlt.getText().toString());
+//                params.put("checkin_long", editCheckinLong.getText().toString());
+//                params.put("checkin_lat", editCheckinLat.getText().toString());
+//                params.put("checkin_alt", editCheckinAlt.getText().toString());
+//                params.put("checkin_time", editCheckinTime.getText().toString());
+//                params.put("checkout_time", editCheckoutTime.getText().toString());
+//                params.put("checkout_long", editCheckinLong.getText().toString());
+//                params.put("checkout_lat", editCheckinLat.getText().toString());
+//                params.put("checkout_alt", editCheckinAlt.getText().toString());
+                params.put("tech", editTechnology.getText().toString());
+                params.put("subtech", editSubTechnology.getText().toString());
+                params.put("lab", (tgle_labcategory.isChecked() ? "1" : "0"));
                 submitRequest("https://ssportal-tbs-2.packet-systems.com/mobile/mobile_activity_submit/", params, "Save Draft");
                 menu_process = act_submit;
                 break;
@@ -802,6 +833,8 @@ public class ActivityEdit extends MyForm {
                         editAltitude.setText("" + location.getAltitude());
                         editTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
                         Toast.makeText(ActivityEdit.this, "Accuracy :" + location.getAccuracy(), Toast.LENGTH_SHORT).show();
+                        sendLocationtoServer();
+                        locationManager.removeUpdates(this);
                     } else {
                         Toast.makeText(ActivityEdit.this, "Accuracy :" + location.getAccuracy() + ", please get into open space to get better accuracy", Toast.LENGTH_SHORT).show();
                     }
@@ -941,5 +974,36 @@ public class ActivityEdit extends MyForm {
             }
         }
         return bValidate;
+    }
+
+    private void sendLocationtoServer() {
+        String urlChecklocation = (location_process == act_checkin ? "https://ssportal-tbs-2.packet-systems.com/mobile/mobile_checkin_submit/" : "https://ssportal-tbs-2.packet-systems.com/mobile/mobile_checkout_submit/");
+
+        final Map<String, String> params = new HashMap<>();
+        params.put("imei", preferences.getString("IMEI", ""));
+        params.put("id_act", idActivity);
+        params.put("long", (location_process == act_checkin ? editCheckinLong.getText().toString() : editCheckoutLong.getText().toString()));
+        params.put("lat", (location_process == act_checkin ? editCheckinLat.getText().toString() : editCheckoutLat.getText().toString()));
+        params.put("alt", (location_process == act_checkin ? editCheckinAlt.getText().toString() : editCheckoutAlt.getText().toString()));
+        StringRequest postRequest = new StringRequest(Request.Method.POST, urlChecklocation,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d("Check Location", "response :" + response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        error.printStackTrace();
+                    }
+                }
+        ) {
+            @Override
+            protected Map<String, String> getParams() {
+                return params;
+            }
+        };
+        Volley.newRequestQueue(this).add(postRequest);
     }
 }

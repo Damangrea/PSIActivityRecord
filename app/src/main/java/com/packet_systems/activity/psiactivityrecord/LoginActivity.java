@@ -68,7 +68,7 @@ public class LoginActivity extends MyForm {
 
     @Override
     public void doErrorResponse(VolleyError p_error) {
-
+        System.out.println("GENERAL ERROR RESPOSE ");
     }
 
     @Override
@@ -86,6 +86,13 @@ public class LoginActivity extends MyForm {
 
     @Override
     public void doResponseErrorCode(String p_errorCode) {
+        Toast.makeText(this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    protected void doResponseErrorJSON() {
+        super.doResponseErrorJSON();
+        //error retrieve
         Toast.makeText(this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
     }
 
@@ -124,7 +131,7 @@ public class LoginActivity extends MyForm {
     }
 
     void getParameter() {
-        String urlCustomer = "https://ssportal-tbs-2.packet-systems.com/mobile/get_customers/", urlProject = "https://ssportal-tbs-2.packet-systems.com/mobile/get_contracts/", urlTechnology = "https://ssportal-tbs-2.packet-systems.com/mobile/get_technology/", urlSubTechnology = "https://ssportal-tbs-2.packet-systems.com/mobile/get_subtechnology/", urlTeam = "https://ssportal-tbs-2.packet-systems.com/mobile/get_team/";
+        String urlCustomer = "https://ssportal-tbs-2.packet-systems.com/mobile/get_customers/", urlProject = "https://ssportal-tbs-2.packet-systems.com/mobile/get_contracts/", urlTechnology = "https://ssportal-tbs-2.packet-systems.com/mobile/get_technology/", urlTeam = "https://ssportal-tbs-2.packet-systems.com/mobile/get_team/";
         StringRequest postRequest;
 
         postRequest = new StringRequest(Request.Method.POST, urlCustomer,
@@ -263,6 +270,7 @@ public class LoginActivity extends MyForm {
                                     technologyData.setName(jsonChild.getString("name"));
                                     listTechnologyData.add(technologyData);
                                 }
+                                getParameterSubTech();
                             }
                         } catch (JSONException e) {
                             Log.d("", "errorJSON");
@@ -278,7 +286,11 @@ public class LoginActivity extends MyForm {
                 }
         );
         Volley.newRequestQueue(this).add(postRequest);
-        postRequest = new StringRequest(Request.Method.POST, urlSubTechnology,
+    }
+
+    private void getParameterSubTech() {
+        String urlSubTechnology = "https://ssportal-tbs-2.packet-systems.com/mobile/get_subtechnology/";
+        StringRequest postRequest = new StringRequest(Request.Method.POST, urlSubTechnology,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

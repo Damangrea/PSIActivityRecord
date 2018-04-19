@@ -62,7 +62,9 @@ public abstract class MyForm extends AppCompatActivity {
     static final int act_draft = 0;
     static final int act_submit = 1;
     static final int act_delete = 2;
-    static int menu_process;
+    static final int act_checkin = 3;
+    static final int act_checkout = 4;
+    static int menu_process, location_process;
     protected DrawerLayout drawerLayout;
     protected ActionBarDrawerToggle drawerToggle;
     TelephonyManager tmPhone;
@@ -241,11 +243,14 @@ public abstract class MyForm extends AppCompatActivity {
 
         } catch (JSONException e) {
             Log.d(p_sIdLog, "errorJSON");
+            doResponseErrorJSON();
             Toast.makeText(getBaseContext(), p_sIdLog + " : Error Response From Server", Toast.LENGTH_LONG);
         }
     }
 
-    ;
+    protected void doResponseErrorJSON() {
+
+    }
 
     @Override
     protected void onResume() {
