@@ -58,7 +58,33 @@ public class LoginActivity extends MyForm {
                 editor.putString("IMEI", tmPhone.getDeviceId());
                 editor.putInt("userId", jsonObject.getInt("id"));
                 editor.putString("userName", jsonObject.getString("name"));
+                editor.putString("longitude", jsonObject.getString("longitude"));
+                editor.putString("latitude", jsonObject.getString("latitude"));
+                editor.putString("position", jsonObject.getString("position"));
+                editor.putString("division", jsonObject.getString("division"));
                 editor.commit();
+                findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
+                ///////////
+                switch (preferences.getString("position", "")) {
+                    case "1": {
+                        //Inputter
+                        Intent intent = new Intent(this, ListingActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+                    }
+                    case "2":
+                    case "3":
+                    case "5": {
+                        Intent intent = new Intent(this, ApprovalActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                        break;
+                    }
+                }
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -74,14 +100,12 @@ public class LoginActivity extends MyForm {
     @Override
     public void doResponseSuccess() {
         /*
-
+               Check Approver or inputter
          */
         //get all data parameter before go to main activity
+        findViewById(R.id.loadingPanel).setVisibility(View.VISIBLE);
+
         getParameter();
-        ///////////
-        Intent intent = new Intent(this, ListingActivity.class);
-        startActivity(intent);
-        finish();
     }
 
     @Override
@@ -100,6 +124,8 @@ public class LoginActivity extends MyForm {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        findViewById(R.id.loadingPanel).setVisibility(View.GONE);
+
 
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = preferences.edit();

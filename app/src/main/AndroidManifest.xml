@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.packet_systems.activity.psiactivityrecord">
+    package="com.packet_systems.activity.psiactivityrecord"
+    android:versionCode="1.1002"
+    android:versionName="Mini Launch">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -8,14 +10,17 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
 
+
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_logo_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ListingActivity"></activity>
+        <activity android:name=".ApprovalActivity"></activity>
+        <activity android:name=".ApprovalEdit"></activity>
         <activity android:name=".ActivityEdit"></activity>
         <activity android:name=".LoginActivity">
             <intent-filter>

@@ -8,6 +8,7 @@ import java.io.Serializable;
 
 public class ActivityData implements Serializable {
     private String id;
+    private String engineer_name;
     private String scheduled;
     private String activity;
     private String activity_type;
@@ -37,6 +38,14 @@ public class ActivityData implements Serializable {
     private String checkout_lat;
     private String checkout_alt;
     private String checkout_time;
+
+    public String getEngineer_name() {
+        return engineer_name;
+    }
+
+    public void setEngineer_name(String engineer_name) {
+        this.engineer_name = engineer_name;
+    }
 
     public String getCheckin_alt() {
         return checkin_alt;

@@ -133,6 +133,10 @@ public class ActivityEdit extends MyForm {
         } else {
             //new add form
             idActivity = "";
+            editCheckinLong.setText("");
+            editCheckinLat.setText("");
+            editCheckoutLong.setText("");
+            editCheckoutLat.setText("");
         }
         reDrawEditView();
         tgle_gps.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -158,8 +162,8 @@ public class ActivityEdit extends MyForm {
                     }
                     if (idActivity.length() == 0) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(ActivityEdit.this);
-                        builder.setTitle("Submit/Set to Draft First");
-                        builder.setMessage("Submit or set to draft first in order get location");
+                        builder.setTitle("Set to Draft First");
+                        builder.setMessage("Set to draft first in order get location");
                         builder.setPositiveButton("OK", null);
                         builder.show();
                         tgle_gps.setChecked(false);
@@ -179,8 +183,8 @@ public class ActivityEdit extends MyForm {
                             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 return;
                             }
-                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, locationListener);
+                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 0, locationListener);
                         }
                     });
                     btnCheckOut.setEnabled(true);
@@ -192,8 +196,8 @@ public class ActivityEdit extends MyForm {
                             if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                                 return;
                             }
-                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 3000, 0, locationListener);
+                            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 3000, 0, locationListener);
                         }
                     });
                 } else {
@@ -720,6 +724,37 @@ public class ActivityEdit extends MyForm {
                 }
                 break;
             }
+            case "3": {
+                switch (menu_process) {
+                    case act_draft: {
+                        break;
+                    }
+                    case act_submit: {
+                        Toast.makeText(this, "Submit Gagal, Isi Check in dan Check Out sebelum submit", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case act_delete: {
+                        break;
+                    }
+                }
+                break;
+            }
+            case "4": {
+                switch (menu_process) {
+                    case act_draft: {
+                        Toast.makeText(this, " Gagal, Overlapping activity", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case act_submit: {
+                        Toast.makeText(this, "Submit Gagal, Overlapping activity", Toast.LENGTH_SHORT).show();
+                        break;
+                    }
+                    case act_delete: {
+                        break;
+                    }
+                }
+                break;
+            }
         }
     }
 
@@ -750,12 +785,12 @@ public class ActivityEdit extends MyForm {
                 params.put("rfpa", editRFPANumber.getText().toString());
                 params.put("mailLog", editMailLog.getText().toString());
                 params.put("crmNumber", editCRMNumber.getText().toString());
-//                params.put("checkin_long", editCheckinLong.getText().toString());
-//                params.put("checkin_lat", editCheckinLat.getText().toString());
-//                params.put("checkin_alt", editCheckinAlt.getText().toString());
-//                params.put("checkout_long", editCheckinLong.getText().toString());
-//                params.put("checkout_lat", editCheckinLat.getText().toString());
-//                params.put("checkout_alt", editCheckinAlt.getText().toString());
+                params.put("checkin_long", editCheckinLong.getText().toString());
+                params.put("checkin_lat", editCheckinLat.getText().toString());
+                params.put("checkin_alt", editCheckinAlt.getText().toString());
+                params.put("checkout_long", editCheckinLong.getText().toString());
+                params.put("checkout_lat", editCheckinLat.getText().toString());
+                params.put("checkout_alt", editCheckinAlt.getText().toString());
                 params.put("tech", editTechnology.getText().toString());
                 params.put("subtech", editSubTechnology.getText().toString());
                 params.put("lab", (tgle_labcategory.isChecked() ? "1" : "0"));
@@ -780,14 +815,14 @@ public class ActivityEdit extends MyForm {
                 params.put("rfpa", editRFPANumber.getText().toString());
                 params.put("mailLog", editMailLog.getText().toString());
                 params.put("crmNumber", editCRMNumber.getText().toString());
-//                params.put("checkin_long", editCheckinLong.getText().toString());
-//                params.put("checkin_lat", editCheckinLat.getText().toString());
-//                params.put("checkin_alt", editCheckinAlt.getText().toString());
-//                params.put("checkin_time", editCheckinTime.getText().toString());
-//                params.put("checkout_time", editCheckoutTime.getText().toString());
-//                params.put("checkout_long", editCheckinLong.getText().toString());
-//                params.put("checkout_lat", editCheckinLat.getText().toString());
-//                params.put("checkout_alt", editCheckinAlt.getText().toString());
+                params.put("checkin_long", editCheckinLong.getText().toString());
+                params.put("checkin_lat", editCheckinLat.getText().toString());
+                params.put("checkin_alt", editCheckinAlt.getText().toString());
+                params.put("checkin_time", editCheckinTime.getText().toString());
+                params.put("checkout_time", editCheckoutTime.getText().toString());
+                params.put("checkout_long", editCheckinLong.getText().toString());
+                params.put("checkout_lat", editCheckinLat.getText().toString());
+                params.put("checkout_alt", editCheckinAlt.getText().toString());
                 params.put("tech", editTechnology.getText().toString());
                 params.put("subtech", editSubTechnology.getText().toString());
                 params.put("lab", (tgle_labcategory.isChecked() ? "1" : "0"));
@@ -828,13 +863,29 @@ public class ActivityEdit extends MyForm {
 //
                 if (location != null) {
                     if (location.getAccuracy() < 25.0) {
-                        editLatitude.setText("" + location.getLatitude());
-                        editLongitude.setText("" + location.getLongitude());
-                        editAltitude.setText("" + location.getAltitude());
-                        editTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
-                        Toast.makeText(ActivityEdit.this, "Accuracy :" + location.getAccuracy(), Toast.LENGTH_SHORT).show();
-                        sendLocationtoServer();
-                        locationManager.removeUpdates(this);
+                        if (preferences.getString("longitude", "").length() > 0) {
+                            double longitude = Double.parseDouble(preferences.getString("longitude", ""));
+                            double latitude = Double.parseDouble(preferences.getString("latitude", ""));
+                            if (distance(latitude, location.getLatitude(), longitude, location.getLongitude()) < 30) {
+                                editLatitude.setText("" + location.getLatitude());
+                                editLongitude.setText("" + location.getLongitude());
+                                editAltitude.setText("" + location.getAltitude());
+                                editTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
+                                Toast.makeText(ActivityEdit.this, "Accuracy :" + location.getAccuracy(), Toast.LENGTH_SHORT).show();
+                                sendLocationtoServer();
+                                locationManager.removeUpdates(this);
+                            } else {
+                                Toast.makeText(ActivityEdit.this, "Distance difference over 30 meters than registered location", Toast.LENGTH_LONG).show();
+                            }
+                        } else {
+                            editLatitude.setText("" + location.getLatitude());
+                            editLongitude.setText("" + location.getLongitude());
+                            editAltitude.setText("" + location.getAltitude());
+                            editTime.setText(DateFormat.getDateTimeInstance().format(new Date()));
+                            Toast.makeText(ActivityEdit.this, "Accuracy :" + location.getAccuracy(), Toast.LENGTH_SHORT).show();
+                            sendLocationtoServer();
+                            locationManager.removeUpdates(this);
+                        }
                     } else {
                         Toast.makeText(ActivityEdit.this, "Accuracy :" + location.getAccuracy() + ", please get into open space to get better accuracy", Toast.LENGTH_SHORT).show();
                     }
@@ -985,6 +1036,7 @@ public class ActivityEdit extends MyForm {
         params.put("long", (location_process == act_checkin ? editCheckinLong.getText().toString() : editCheckoutLong.getText().toString()));
         params.put("lat", (location_process == act_checkin ? editCheckinLat.getText().toString() : editCheckoutLat.getText().toString()));
         params.put("alt", (location_process == act_checkin ? editCheckinAlt.getText().toString() : editCheckoutAlt.getText().toString()));
+        params.put("user_id", "" + preferences.getInt("userId", 0));
         StringRequest postRequest = new StringRequest(Request.Method.POST, urlChecklocation,
                 new Response.Listener<String>() {
                     @Override

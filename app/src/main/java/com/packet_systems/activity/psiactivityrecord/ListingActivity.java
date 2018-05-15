@@ -125,6 +125,7 @@ public class ListingActivity extends MyForm {
             activityData.setCheckout_lat(jsonObject.getString("checkout_lat"));
             activityData.setCheckout_alt(jsonObject.getString("checkout_alt"));
             activityData.setCheckout_time(jsonObject.getString("checkout_time"));
+            activityData.setEngineer_name(jsonObject.getString("name"));
             activityDataList.add(activityData);
         }
         ////////

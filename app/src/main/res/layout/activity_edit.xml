@@ -111,9 +111,9 @@
                 android:id="@+id/rltv_geolocation">
 
                 <ToggleButton
+                    android:id="@+id/tgle_getgps"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/tgle_getgps"
                     android:layout_alignParentStart="true" />
 
                 <Button

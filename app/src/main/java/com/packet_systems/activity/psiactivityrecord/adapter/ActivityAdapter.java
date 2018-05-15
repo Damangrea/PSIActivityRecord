@@ -87,7 +87,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
 
     public static class ActivityHolder extends RecyclerView.ViewHolder {
         CardView cardView;
-        TextView tv_status, tv_scheduled, tv_timestart, tv_timeend, tv_customer, tv_so_number, tv_activity, tv_category;
+        TextView tv_status, tv_scheduled, tv_timestart, tv_timeend, tv_customer, tv_so_number, tv_activity, tv_category, tv_name;
 
         public ActivityHolder(View itemView) {
             super(itemView);
@@ -100,6 +100,7 @@ public class ActivityAdapter extends RecyclerView.Adapter<ActivityAdapter.Activi
             tv_so_number = (TextView) itemView.findViewById(R.id.tv_so_number);
             tv_activity = (TextView) itemView.findViewById(R.id.tv_activity);
             tv_category = (TextView) itemView.findViewById(R.id.tv_category);
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
         }
     }
 
