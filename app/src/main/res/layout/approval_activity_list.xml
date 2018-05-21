@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawer_layout"
+    tools:context="com.packet_systems.activity.psiactivityrecord.ListingActivity"
+    tools:ignore="InvalidId">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/rltv_header">
+            <!-- Header Table -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:id="@+id/hl_header">
+
+                <TextView
+                    android:id="@+id/tv_name"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Engineer Name" />
+
+                <TextView
+                    android:id="@+id/tv_scheduled"
+                    android:layout_width="100dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Scheduled" />
+
+                <TextView
+                    android:id="@+id/tv_timestart"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Time Start" />
+
+                <TextView
+                    android:id="@+id/tv_timeend"
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Time End" />
+
+                <TextView
+                    android:id="@+id/tv_activity"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Activity" />
+
+                <TextView
+                    android:id="@+id/tv_customer"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Customer" />
+
+                <TextView
+                    android:id="@+id/tv_so_number"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="SO Number" />
+
+                <TextView
+                    android:id="@+id/tv_category"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Category" />
+                <!--
+                <TextView
+                    android:id="@+id/tv_chk_in_out"
+                    android:layout_width="160dp"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="Check In / Check Out" />
+                    -->
+            </LinearLayout>
+            <!-- Line Table -->
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scrollbars="vertical"
+                android:layout_below="@id/hl_header"
+                android:id="@+id/rv_activity" />
+        </RelativeLayout>
+    </HorizontalScrollView>
+
+    <!--<android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="40dp"
+            android:layout_gravity="bottom|end"
+            app:srcCompat="@android:drawable/ic_menu_add"
+            android:id="@+id/fab" />
+    </android.support.design.widget.CoordinatorLayout> -->
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/navigation_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        app:menu="@menu/menu_approve_layout">
+
+    </android.support.design.widget.NavigationView>
+
+    <!--
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+
+    </android.support.design.widget.AppBarLayout>
+-->
+
+</android.support.v4.widget.DrawerLayout>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cv_activity"
+        android:paddingBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/border"
+            android:id="@+id/hl_header">
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Engineer Name" />
+
+            <TextView
+                android:id="@+id/tv_scheduled"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Scheduled" />
+
+            <TextView
+                android:id="@+id/tv_timestart"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Time Start" />
+
+            <TextView
+                android:id="@+id/tv_timeend"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:text="Time End" />
+
+            <TextView
+                android:id="@+id/tv_activity"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:text="Activity" />
+
+            <TextView
+                android:id="@+id/tv_customer"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:text="Customer" />
+
+            <TextView
+                android:id="@+id/tv_so_number"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="SO Number" />
+
+            <TextView
+                android:id="@+id/tv_category"
+                android:layout_width="160dp"
+                android:layout_height="wrap_content"
+                android:text="Category" />
+            <!--
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ChkIn"
+                android:id="@+id/btn_chkin"/>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ChkOut"
+                android:id="@+id/btn_chkout"/>
+                -->
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
