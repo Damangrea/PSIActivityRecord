@@ -866,7 +866,7 @@ public class ActivityEdit extends MyForm {
                         if (preferences.getString("longitude", "").length() > 0) {
                             double longitude = Double.parseDouble(preferences.getString("longitude", ""));
                             double latitude = Double.parseDouble(preferences.getString("latitude", ""));
-                            if (distance(latitude, location.getLatitude(), longitude, location.getLongitude()) < 30) {
+                            if (distance(latitude, location.getLatitude(), longitude, location.getLongitude()) < 60) {
                                 editLatitude.setText("" + location.getLatitude());
                                 editLongitude.setText("" + location.getLongitude());
                                 editAltitude.setText("" + location.getAltitude());
